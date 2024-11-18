@@ -75,6 +75,11 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         jPanel1.add(teksLabel, gridBagConstraints);
 
         hitungButton.setText("Hitung");
+        hitungButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hitungButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -83,6 +88,11 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         jPanel1.add(hitungButton, gridBagConstraints);
 
         keluarButton.setText("Keluar");
+        keluarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keluarButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -108,6 +118,16 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void hitungButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String teks = teksTextArea.getText();
+        String[] words = teks.split("\\s+");
+        jumlahTextField.setText(String.valueOf(words.length));
+    }
+
+    private void keluarButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
 
     /**
      * @param args the command line arguments
