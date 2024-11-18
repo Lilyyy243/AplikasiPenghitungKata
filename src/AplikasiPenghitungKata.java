@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 /**
  *
  * @author mmada
@@ -99,6 +102,18 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 17, 12);
         jPanel1.add(keluarButton, gridBagConstraints);
 
+        teksTextArea.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,34 +144,16 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         System.exit(0);
     }
 
+    private void updateWordCount() {
+        String teks = teksTextArea.getText();
+        String[] words = teks.split("\\s+");
+        jumlahTextField.setText(String.valueOf(words.length));
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AplikasiPenghitungKata.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AplikasiPenghitungKata.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AplikasiPenghitungKata.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AplikasiPenghitungKata.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AplikasiPenghitungKata().setVisible(true);
@@ -176,3 +173,4 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
     private javax.swing.JTextArea teksTextArea;
     // End of variables declaration//GEN-END:variables
 }
+
