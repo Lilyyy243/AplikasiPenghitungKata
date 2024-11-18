@@ -17,6 +17,32 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
      */
     public AplikasiPenghitungKata() {
         initComponents();
+        
+        // Add DocumentListener to teksTextArea
+        teksTextArea.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                updateWordCount();
+            }
+        });
+        
+        // Add DocumentListener to cariTextField
+        cariTextField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) {
+                searchWord();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                searchWord();
+            }
+            public void changedUpdate(DocumentEvent e) {
+                searchWord();
+            }
+        });
     }
 
     /**
@@ -38,6 +64,16 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         teksLabel = new javax.swing.JLabel();
         hitungButton = new javax.swing.JButton();
         keluarButton = new javax.swing.JButton();
+        paragrafTextField = new javax.swing.JTextField();
+        kalimatTextField = new javax.swing.JTextField();
+        paragrafLabel = new javax.swing.JLabel();
+        kalimatLabel = new javax.swing.JLabel();
+        cariButton = new javax.swing.JButton();
+        cariTextField = new javax.swing.JTextField();
+        cariLabel = new javax.swing.JLabel();
+        hasilLabel = new javax.swing.JLabel();
+        hasilTextField = new javax.swing.JTextField();
+        exportButton = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -67,6 +103,7 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 15, 14, 9);
         jPanel1.add(jumlahLabel, gridBagConstraints);
 
@@ -74,6 +111,7 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(17, 15, 14, 9);
         jPanel1.add(teksLabel, gridBagConstraints);
 
@@ -85,7 +123,8 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 12, 12);
         jPanel1.add(hitungButton, gridBagConstraints);
@@ -98,56 +137,226 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 17, 12);
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 12, 12);
         jPanel1.add(keluarButton, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel1.add(paragrafTextField, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 0);
+        jPanel1.add(kalimatTextField, gridBagConstraints);
 
-        teksTextArea.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                updateWordCount();
-            }
-            public void removeUpdate(DocumentEvent e) {
-                updateWordCount();
-            }
-            public void changedUpdate(DocumentEvent e) {
-                updateWordCount();
+        paragrafLabel.setText("Jumlah Paragraf");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 10);
+        jPanel1.add(paragrafLabel, gridBagConstraints);
+
+        kalimatLabel.setText("Jumlah Kalimat");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 10);
+        jPanel1.add(kalimatLabel, gridBagConstraints);
+
+        cariButton.setText("Cari");
+        cariButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        jPanel1.add(cariButton, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel1.add(cariTextField, gridBagConstraints);
+
+        cariLabel.setText("Cari Kata");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 11);
+        jPanel1.add(cariLabel, gridBagConstraints);
+
+        hasilLabel.setText("Hasil Pencarian");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        jPanel1.add(hasilLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel1.add(hasilTextField, gridBagConstraints);
+
+        exportButton.setText("Export");
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
+        jPanel1.add(exportButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addGap(36, 36, 36)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void hitungButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String teks = teksTextArea.getText();
-        String[] words = teks.split("\\s+");
-        jumlahTextField.setText(String.valueOf(words.length));
-    }
+    private void hitungButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hitungButtonActionPerformed
+        updateWordCount();
+    }//GEN-LAST:event_hitungButtonActionPerformed
 
-    private void keluarButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void keluarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keluarButtonActionPerformed
+        // TODO add your handling code here:
         System.exit(0);
-    }
+    }//GEN-LAST:event_keluarButtonActionPerformed
+
+    private void cariButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariButtonActionPerformed
+        String teks = teksTextArea.getText().toLowerCase();
+        String kataCari = cariTextField.getText().toLowerCase();
+        
+        if (kataCari.isEmpty()) {
+            hasilTextField.setText("Masukkan kata yang ingin dicari");
+            return;
+        }
+
+        // Count occurrences using regex
+        String pattern = "\\b" + kataCari + "\\b";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern);
+        java.util.regex.Matcher m = p.matcher(teks);
+        
+        int count = 0;
+        while (m.find()) {
+            count++;
+        }
+        
+        if (count > 0) {
+            hasilTextField.setText("Ditemukan " + count + " kali");
+        } else {
+            hasilTextField.setText("Kata tidak ditemukan");
+        }
+    }//GEN-LAST:event_cariButtonActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Simpan Hasil");
+        fileChooser.setFileSelectionMode(javax.swing.JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text Files (*.txt)", "txt"));
+        
+        if (fileChooser.showSaveDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
+            try {
+                java.io.File file = fileChooser.getSelectedFile();
+                if (!file.getName().toLowerCase().endsWith(".txt")) {
+                    file = new java.io.File(file.getParentFile(), file.getName() + ".txt");
+                }
+                
+                java.io.PrintWriter writer = new java.io.PrintWriter(file, "UTF-8");
+                writer.println("=== Teks ===");
+                writer.println(teksTextArea.getText());
+                writer.println("\n=== Statistik ===");
+                writer.println("Jumlah Kata: " + jumlahTextField.getText());
+                writer.println("Jumlah Kalimat: " + kalimatTextField.getText());
+                writer.println("Jumlah Paragraf: " + paragrafTextField.getText());
+                if (!hasilTextField.getText().isEmpty()) {
+                    writer.println("Hasil Pencarian: " + hasilTextField.getText());
+                }
+                writer.close();
+                
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "File berhasil disimpan di:\n" + file.getAbsolutePath(),
+                    "Berhasil", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Gagal menyimpan file: " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_exportButtonActionPerformed
 
     private void updateWordCount() {
-        String teks = teksTextArea.getText();
-        String[] words = teks.split("\\s+");
+        String teks = teksTextArea.getText().trim();
+        
+        // Count words
+        String[] words = teks.isEmpty() ? new String[0] : teks.split("\\s+");
         jumlahTextField.setText(String.valueOf(words.length));
+        
+        // Count sentences
+        String[] sentences = teks.isEmpty() ? new String[0] : teks.split("[.!?]+\\s*");
+        kalimatTextField.setText(String.valueOf(sentences.length));
+        
+        // Count paragraphs
+        String[] paragraphs = teks.isEmpty() ? new String[0] : teks.split("\\n\\s*\\n");
+        paragrafTextField.setText(String.valueOf(paragraphs.length == 0 ? 1 : paragraphs.length));
+    }
+
+    private void searchWord() {
+        String teks = teksTextArea.getText().toLowerCase();
+        String kataCari = cariTextField.getText().toLowerCase();
+        
+        if (kataCari.isEmpty()) {
+            hasilTextField.setText("");
+            return;
+        }
+
+        String pattern = "\\b" + kataCari + "\\b";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern);
+        java.util.regex.Matcher m = p.matcher(teks);
+        
+        int count = 0;
+        while (m.find()) {
+            count++;
+        }
+        
+        if (count > 0) {
+            hasilTextField.setText("Ditemukan " + count + " kali");
+        } else {
+            hasilTextField.setText("Kata tidak ditemukan");
+        }
     }
 
     /**
@@ -162,13 +371,23 @@ public class AplikasiPenghitungKata extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cariButton;
+    private javax.swing.JLabel cariLabel;
+    private javax.swing.JTextField cariTextField;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JLabel hasilLabel;
+    private javax.swing.JTextField hasilTextField;
     private javax.swing.JButton hitungButton;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jumlahLabel;
     private javax.swing.JTextField jumlahTextField;
+    private javax.swing.JLabel kalimatLabel;
+    private javax.swing.JTextField kalimatTextField;
     private javax.swing.JButton keluarButton;
+    private javax.swing.JLabel paragrafLabel;
+    private javax.swing.JTextField paragrafTextField;
     private javax.swing.JLabel teksLabel;
     private javax.swing.JTextArea teksTextArea;
     // End of variables declaration//GEN-END:variables
